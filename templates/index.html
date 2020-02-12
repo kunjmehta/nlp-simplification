@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>SIMPEXT-NLP</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+</head>
+<body>
+	<div class="jumbotron text-center">
+  		<h1>SIMPEXT-NLP</h1>
+  		<p>The tool that uses cutting edge NLP to simplify your text</p> 
+	</div>
+
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-8">
+			<form action="" method="post">
+				<textarea class="form-control" rows="5" id = "area"></textarea>
+				<br/>
+				<button type="button" class="btn btn-success btn-block textonly">Simplify Text</button> 
+			</form>
+			<br/>
+			<form action="{{ url_for('upload') }}" method="post" enctype = "multipart/form-data">
+				<input type = "file" id = "img" name = "img">
+				<input type="submit" class="btn btn-success btn-block imgupload" value = "Upload Image">
+			</form>
+			<button type="button" class="btn btn-success btn-block imgtext">Simplify Image</button>
+			<br/>
+			<form action="{{ url_for('upload') }}" method="post" enctype = "multipart/form-data">
+				<input type = "file" id = "pdf" name = "pdf">
+				<input type="submit" class="btn btn-success btn-block pdfupload" value = "Upload PDF">
+			</form>
+			<button type="button" class="btn btn-success btn-block pdftext">Simplify PDF</button>
+		</div>
+		<div class="col-md-2"></div>
+	</div>
+
+	<script type="text/javascript">
+		var socket = io.connect("http://" + document.domain + ":" + location.port);
+
+		// Connection check
+		socket.on( "connect", function() {
+			console.log("User connected");
+        })
+
+
+        // Pass text input to python file for simplification
+        var txt = $(".textonly").on( "click", function( e ) {
+        	e.preventDefault();
+        	var text = $("#area").val();
+          	socket.emit("Textonly event", text);
+          	// console.log(text)
+        } )
+        socket.on("Textonly response", function( text ) {
+        	// console.log(text);
+        	$("#area").val(text);
+        })
+
+		// Pass image input to python file for simplification
+		var img = $(".imgtext").on("click", function(e){
+			e.preventDefault();
+			socket.emit("Imagetext event");
+		})
+		socket.on( "Imagetext response", function( text ) {
+        	// console.log(text);
+        	$("#area").val(text);
+        })
+
+        // Pass pdf input to python file for simplification
+		var img = $(".pdftext").on("click", function(e){
+			e.preventDefault();
+			socket.emit("Pdftext event");
+		})
+		socket.on( "Pdftext response", function( text ) {
+        	// console.log(text);
+        	$("#area").val(text);
+        })
+
+
+	</script>
+
+</body>
+</html>
