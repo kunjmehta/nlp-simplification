@@ -12,10 +12,7 @@ around it.
 * **Challenge:** Starting out, we did not know anything about NLP other than tokenization. The challenge for us was to read through research papers to understand the basics as well
 as the advanced topics and come up with a system as well as a model architecture. Another challenge was finding a dataset suiting our needs.
 
-* **Accomplishment:** Acquiring immense knowledge about NLP is our biggest accomplishment as part of this project. We were able to build architectures for two systems (because
-the Transformer model used in the first system failed in the simplification task and we had to change our approach) and incorporate Optical Character Recognition in the system to
-extract text from JPEGs/PNGs and PDFs. We also had to build our own domain specific dataset. In the end, we were able to build a proof-of-concept system using lexical simplification
-techniques for simplification.
+* **Accomplishment:** Acquiring immense knowledge about NLP is our biggest accomplishment as part of this project. We were able to build and merge two different architectures into a pipeline for this project; We prepended a CWI model to imrpove the performance of the Transformer model for semantic simplification. In the end, we were able to build a proof-of-concept system using for simplification of complex words.
 
 ***
 
